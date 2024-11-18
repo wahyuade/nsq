@@ -54,6 +54,7 @@ func (p *program) Init(env svc.Environment) error {
 	cfg.Validate()
 
 	options.Resolve(opts, flagSet, cfg)
+	applyBackwardCompatibility(opts, flagSet)
 
 	nsqd, err := nsqd.New(opts)
 	if err != nil {
@@ -103,4 +104,14 @@ func (p *program) Context() context.Context {
 
 func logFatal(f string, args ...interface{}) {
 	lg.LogFatal("[nsqd] ", f, args...)
+}
+
+// applyBackwardCompatibility applies backward compatibility rules to options after flag resolution
+func applyBackwardCompatibility(opts *nsqd.Options, flagSet *flag.FlagSet) {
+	// when max-defer-timeout was not explicitly set, refer to the max-req-timeout value
+	if flag := flagSet.Lookup("max-defer-timeout"); flag != nil && flag.Value.String() == flag.DefValue {
+		opts.MaxDeferTimeout = opts.MaxReqTimeout
+	}
+
+	// ... other backward compatibility rules can be added here
 }
