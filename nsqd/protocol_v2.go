@@ -916,14 +916,14 @@ func (p *protocolV2) DPUB(client *clientV2, params [][]byte) ([]byte, error) {
 	timeoutMs, err := protocol.ByteToBase10(params[2])
 	if err != nil {
 		return nil, protocol.NewFatalClientErr(err, "E_INVALID",
-			fmt.Sprintf("DPUB could not parse timeout %s", params[2]))
+			fmt.Sprintf("DPUB could not parse defer timeout %s", params[2]))
 	}
 	timeoutDuration := time.Duration(timeoutMs) * time.Millisecond
 
-	if timeoutDuration < 0 || timeoutDuration > p.nsqd.getOpts().MaxReqTimeout {
+	if timeoutDuration < 0 || timeoutDuration > p.nsqd.getOpts().MaxDeferTimeout {
 		return nil, protocol.NewFatalClientErr(nil, "E_INVALID",
-			fmt.Sprintf("DPUB timeout %d out of range 0-%d",
-				timeoutMs, p.nsqd.getOpts().MaxReqTimeout/time.Millisecond))
+			fmt.Sprintf("DPUB defer timeout %d out of range 0-%d",
+				timeoutMs, p.nsqd.getOpts().MaxDeferTimeout/time.Millisecond))
 	}
 
 	bodyLen, err := readLen(client.Reader, client.lenSlice)
