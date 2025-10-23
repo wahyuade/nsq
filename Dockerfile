@@ -1,6 +1,8 @@
 FROM golang:alpine AS build
 
 RUN apk update && apk add make gcc musl-dev
+ENV GOARC=arm
+ENV GOOS=linux
 
 RUN mkdir -p /go/src/github.com/nsqio/nsq
 COPY    .    /go/src/github.com/nsqio/nsq

@@ -12,8 +12,8 @@ require (
 	github.com/judwhite/go-svc v1.2.1
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/mreiferson/go-options v1.0.0
-	github.com/nsqio/go-diskqueue v1.1.0
 	github.com/nsqio/go-nsq v1.1.0
+	github.com/wahyuade/diskqueue v1.1.2-0.20250102031908-eecc217b9d4c
 )
 
 require (

@@ -3,6 +3,7 @@ BINDIR=${PREFIX}/bin
 DESTDIR=
 BLDDIR=build
 BLDFLAGS=
+GOARCH=arm
 EXT=
 ifeq (${GOOS},windows)
     EXT=.exe
