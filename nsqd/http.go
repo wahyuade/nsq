@@ -152,6 +152,8 @@ func (s *httpServer) doInfo(w http.ResponseWriter, req *http.Request, ps httprou
 		MaxOutBufferSize     int64         `json:"max_output_buffer_size"`
 		MaxOutBufferTimeout  time.Duration `json:"max_output_buffer_timeout"`
 		MaxDeflateLevel      int           `json:"max_deflate_level"`
+		TopologyZone         string        `json:"topology_zone"`
+		TopologyRegion       string        `json:"topology_region"`
 	}{
 		Version:              version.Binary,
 		BroadcastAddress:     s.nsqd.getOpts().BroadcastAddress,
@@ -163,6 +165,8 @@ func (s *httpServer) doInfo(w http.ResponseWriter, req *http.Request, ps httprou
 		MaxOutBufferSize:     s.nsqd.getOpts().MaxOutputBufferSize,
 		MaxOutBufferTimeout:  s.nsqd.getOpts().MaxOutputBufferTimeout,
 		MaxDeflateLevel:      s.nsqd.getOpts().MaxDeflateLevel,
+		TopologyZone:         s.nsqd.getOpts().TopologyZone,
+		TopologyRegion:       s.nsqd.getOpts().TopologyRegion,
 	}, nil
 }
 
@@ -241,7 +245,7 @@ func (s *httpServer) doPUB(w http.ResponseWriter, req *http.Request, ps httprout
 			return nil, http_api.Err{400, "INVALID_DEFER"}
 		}
 		deferred = time.Duration(di) * time.Millisecond
-		if deferred < 0 || deferred > s.nsqd.getOpts().MaxReqTimeout {
+		if deferred < 0 || deferred > s.nsqd.getOpts().MaxDeferTimeout {
 			return nil, http_api.Err{400, "INVALID_DEFER"}
 		}
 	}
