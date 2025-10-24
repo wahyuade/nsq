@@ -10,7 +10,7 @@ WORKDIR      /go/src/github.com/nsqio/nsq
 
 RUN CGO_ENABLED=0 make BLDDIR=/tmp/nsq PREFIX=/opt/nsq BLDFLAGS='-ldflags="-s -w"' install
 
-FROM alpine:latest
+FROM debian:stable-slim
 
 EXPOSE 4150 4151 4160 4161 4170 4171
 
